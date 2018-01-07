@@ -1,0 +1,193 @@
+======Linux RedHat7 RocketMQ安装========================================================================================
+双Master模式
+版本：alibaba-rocketmq-3.5.8
+下载：
+安装之前确保安装了以下的软件,版本尽量高，没要求
+git（git-2.9.5.tar.gz）
+maven(apache-maven-3.5.2-bin.tar.gz)
+jdk8(jdk-8u151-linux-x64.tar.gz)
+tomcat(apache-tomcat-8.5.24.tar.gz)
+
+1、Hosts添加信息 （两台）
+# vim /etc/hosts
+192.168.183.129 rocketmq-nameserver1
+192.168.183.129 rocketmq-master1
+192.168.183.130 rocketmq-nameserver2
+192.168.183.130 rocketmq-master2
+# systemctl restart network.service
+# vim /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=rocketmq-nameserver1 (另外一台设置成rocketmq-nameserver2)
+# source /etc/sysconfig/network
+检查配置是否有效
+# ping rocketmq-nameserver1
+# ping rocketmq-nameserver2
+
+2、环境变量配置
+# vim /etc/profile
+ROCKETMQ_HOME=/usr/local/rocketmq/devenv
+export ROCKETMQ_HOME
+export PATH=${PATH}:${ROCKETMQ_HOME}/bin
+# source /etc/profile
+
+3、解压（两台）
+# tar -zxvf rocketmq-3.5.8 -C /usr/local/
+# mv rocketmq rocketmq-3.5.8 
+# ln -s rocketmq-3.5.8 rocketmq (建立软连接)
+
+4、编译
+# cd /usr/local/rocketmq/
+# sh Install.sh
+
+5、创建存储路径（两台）
+# mkdir /usr/local/rocketmq/store
+# mkdir /usr/local/rocketmq/store/commitlog
+# mkdir /usr/local/rocketmq/store/consumequeue
+# mkdir /usr/local/rocketmq/store/index
+
+6、RocketMQ配置文件（两台）
+# vim /usr/local/rocketmq/conf/2m-noslave/broker-a.properties
+# vim /usr/local/rocketmq/conf/2m-noslave/broker-b.properties
+------配置文件内容-------------------------------------------
+#所属集群名字
+brokerClusterName=rocketmq-cluster
+#!!!!!!!!!!!!broker名字，注意此处不同的配置文件填写的不一样!!!!!!!!
+brokerName=broker-a | broker-b
+#0 表示 Master，>0 表示 Slave
+brokerId=0
+#nameServer地址，分号分割
+namesrvAddr=rocketmq-nameserver1:9876;rocketmq-nameserver2:9876
+#在发送消息时，自动创建服务器不存在的topic，默认创建的队列数
+defaultTopicQueueNums=4
+#是否允许 Broker 自动创建Topic，建议线下开启，线上关闭
+autoCreateTopicEnable=true
+#是否允许 Broker 自动创建订阅组，建议线下开启，线上关闭
+autoCreateSubscriptionGroup=true
+#Broker 对外服务的监听端口
+listenPort=10911
+#删除文件时间点，默认凌晨 4点
+deleteWhen=04
+#文件保留时间，默认 48 小时
+fileReservedTime=120
+#commitLog每个文件的大小默认1G
+mapedFileSizeCommitLog=1073741824
+#ConsumeQueue每个文件默认存30W条，根据业务情况调整
+mapedFileSizeConsumeQueue=300000
+#destroyMapedFileIntervalForcibly=120000
+#redeleteHangedFileInterval=120000
+#检测物理文件磁盘空间
+diskMaxUsedSpaceRatio=88
+#存储路径
+storePathRootDir=/usr/local/rocketmq/store
+#commitLog 存储路径
+storePathCommitLog=/usr/local/rocketmq/store/commitlog
+#消费队列存储路径存储路径
+storePathConsumeQueue=/usr/local/rocketmq/store/consumequeue
+#消息索引存储路径
+storePathIndex=/usr/local/rocketmq/store/index
+#checkpoint 文件存储路径
+storeCheckpoint=/usr/local/rocketmq/store/checkpoint
+#abort 文件存储路径
+abortFile=/usr/local/rocketmq/store/abort
+#限制的消息大小
+maxMessageSize=65536
+#flushCommitLogLeastPages=4
+#flushConsumeQueueLeastPages=2
+#flushCommitLogThoroughInterval=10000
+#flushConsumeQueueThoroughInterval=60000
+#Broker 的角色
+#- ASYNC_MASTER 异步复制Master
+#- SYNC_MASTER 同步双写Master
+#- SLAVE
+brokerRole=ASYNC_MASTER
+#刷盘方式
+#- ASYNC_FLUSH 异步刷盘
+#- SYNC_FLUSH 同步刷盘
+flushDiskType=ASYNC_FLUSH
+#checkTransactionMessageEnable=false
+#发消息线程池数量
+#sendMessageThreadPoolNums=128
+#拉消息线程池数量
+#pullMessageThreadPoolNums=128
+
+7、修改日志配置文件（两台）
+# mkdir -p /usr/local/rocketmq/logs
+用sed替换
+# cd /usr/local/rocketmq/conf && sed -i 's#${user.home}#/usr/local/rocketmq#g' *.xml
+
+8、修改启动脚本中的JVM参数（两台）
+# vim /usr/local/rocketmq/bin/runbroker.sh
+JAVA_OPT="${JAVA_OPT} -server -Xms1g -Xmx1g -Xmn512m -XX:PermSize=128m -XX:MaxPermSize=320m"
+
+9、启动NameServer(两台)
+# cd /usr/local/rocketmq/bin
+# nohup sh mqnamesrv &
+
+注意必须先把全部NameServer的启动再启动BrokerServer,启动结果注意查看日志
+10、启动BrokerServer A
+# cd /usr/local/rocketmq/bin
+# nohup sh mqbroker -c /usr/local/rocketmq/conf/2m-noslave/broker-a.properties >/dev/null 2>&1 &
+# netstat -ntlp
+# jps
+# tail -f -n 500 /usr/local/rocketmq/logs/rocketmqlogs/broker.log
+# tail -f -n 500 /usr/local/rocketmq/logs/rocketmqlogs/namesrv.log
+
+11、启动BrokerServer B
+# cd /usr/local/rocketmq/bin
+# nohup sh mqbroker -c /usr/local/rocketmq/conf/2m-noslave/broker-b.properties >/dev/null 2>&1 &
+# netstat -ntlp
+# jps
+# tail -f -n 500 /usr/local/rocketmq/logs/rocketmqlogs/broker.log
+# tail -f -n 500 /usr/local/rocketmq/logs/rocketmqlogs/namesrv.log
+
+12、RocketMQ Console
+本安装使适用alibaba版
+下载：https://github.com/rocketmq/rocketmq-console
+有的需要用eclipse或idea编译打包
+12.1、编译后的war包上传到tomcat的webapps目录下
+12.2、修改配置文件
+# vim /usr/local/tomcat/webapps/rocketmq-console/WEB-INF/classes/config.properties
+rocketmq.namesrv.addr=192.168.183.129:9876;192.168.183.130:9876
+throwDone=true
+12.3、浏览器输入
+http://192.168.183.130:8081/rocketmq-console/
+
+13、mqadmin命令管理
+# cd /usr/local/rocketmq/bin
+查看包含哪些命令
+# sh mqadmin 
+具体命令帮助
+# sh mqadmin help 命令
+
+14、数据清理
+# cd /usr/local/rocketmq/bin
+# sh mqshutdown broker
+# sh mqshutdown namesrv
+# --等待停止（先停broker后停nameserver）
+# rm -rf /usr/local/rocketmq/store
+# mkdir /usr/local/rocketmq/store
+# mkdir /usr/local/rocketmq/store/commitlog
+# mkdir /usr/local/rocketmq/store/consumequeue
+# mkdir /usr/local/rocketmq/store/index
+# --按照上面步骤重启NameServer与BrokerServer
+
+
+-------windows7 安装RocketMQ------------------------------------------------------------------------------
+要求：操作系统：Windows 7 64位旗舰版 、JDK：1.7以上
+1、下载编译好的RocketMQ的发布版，也可以自行编译：https://github.com/alibaba/RocketMQ/releases
+选择 Source code (tar.gz)。
+2、打包：
+进入D:\study_tgl\rocketmq\rocketmq-3.5.8_1\rocketmq-3.5.8 执行install.bat
+3、设置环境变量
+cmd 
+D:\study_tgl\rocketmq\rocketmq-3.5.8_1\rocketmq-3.5.8\target\alibaba-rocketmq-broker\alibaba-rocketmq\bin
+>set NAMESRV_ADDR=127.0.0.1:9876
+4、启动namesrv
+cmd 
+D:\study_tgl\rocketmq\rocketmq-3.5.8_1\rocketmq-3.5.8\target\alibaba-rocketmq-broker\alibaba-rocketmq\bin
+>start/b mqnamesrv.exe  >D:\study_tgl\rocketmq\rocketmq-3.5.8_1\rocketmq-3.5.8\logs\mqnamesrv.log 
+5、启动broker
+>start/b mqbroker.exe -n "127.0.0.1:9876" -c D:\study_tgl\rocketmq\rocketmq-3.5.8_1\rocketmq-3.5.8\target\alibaba-rocketmq-broker\alibaba-rocketmq\conf\2m-noslave\broker-a.properties >D:\study_tgl\rocketmq\rocketmq-3.5.8_1\rocketmq-3.5.8\logs\mqbroker.log
+
+
+================================================================================================================
