@@ -35,6 +35,8 @@
 	<modules>
 		<module>spring-boot-rocketmq</module>
 		<module>spring-boot-hello</module>
+		<module>spring-boot-config</module>
+		<module>spring-boot-mybatis-mapper</module>
 	</modules>
 
 	<dependencies>
