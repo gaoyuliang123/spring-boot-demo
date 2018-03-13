@@ -1,14 +1,15 @@
 package com.example.springbootmybatismapper.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "learn_resource")
-public class LearnResource {
+public class LearnResource  implements Serializable{
     /**
      * ID
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**

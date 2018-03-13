@@ -6,7 +6,7 @@
     <!--加载配置文件，为下面读取数据库信息准备-->
     <properties resource="application.properties"/>
 
-    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+    <context id="postgresql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
 
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
             <property name="mappers" value="com.example.springbootmybatismapper.util.MyMapper" />
@@ -56,8 +56,11 @@
         <!--生成对应表及类名
         去掉Mybatis Generator生成的一堆 example
         -->
-        <table tableName="LEARN_RESOURCE" domainObjectName="LearnResource" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        <!--<table tableName="LEARN_RESOURCE" domainObjectName="LearnResource" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--</table>-->
+        <table tableName="city" domainObjectName="city" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="postgresql" identity="true"/>
         </table>
     </context>
 </generatorConfiguration>
