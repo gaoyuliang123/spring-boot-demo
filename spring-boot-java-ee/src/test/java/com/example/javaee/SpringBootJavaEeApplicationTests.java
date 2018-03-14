@@ -1,4 +1,4 @@
-package com.example.springbootjavaee;
+package com.example.javaee;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

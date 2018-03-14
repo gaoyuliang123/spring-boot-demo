@@ -1,4 +1,4 @@
-package com.example.springbootjavaee.proxy.staticproxy;
+package com.example.javaee.proxy.staticproxy;
 
 public class Test {
     public static void main(String[] args){

@@ -1,4 +1,4 @@
-package com.example.springbootjavaee.proxy.dynamic.jdk;
+package com.example.javaee.proxy.dynamic.jdk;
 
 public class MouTaiWine implements SellWine {
     @Override

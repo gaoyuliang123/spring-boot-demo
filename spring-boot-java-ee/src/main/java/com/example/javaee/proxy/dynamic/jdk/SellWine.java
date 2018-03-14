@@ -1,4 +1,4 @@
-package com.example.springbootjavaee.proxy.dynamic.jdk;
+package com.example.javaee.proxy.dynamic.jdk;
 
 /**
  * 卖酒的许可证

@@ -1,4 +1,4 @@
-package com.example.springbootjavaee.proxy.staticproxy;
+package com.example.javaee.proxy.staticproxy;
 
 /**
  * 代理模式可以在不修改被代理对象的基础上，通过扩展代理类，进行一些功能的附加与增强。
