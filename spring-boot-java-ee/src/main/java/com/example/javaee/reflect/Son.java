@@ -1,12 +1,23 @@
 package com.example.javaee.reflect;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 
 public class Son extends Father {
     int age;
     private Date birthday;
     protected float money;
     public String name;
+
+    public List<Car> listCar;
+    private Map<String, Integer> map;
+
+    public Car[] Cars;
+    private int[] array;
+
+    private Status status = Status.DRIVERING;
 
     public Son() {
     }
@@ -56,5 +67,21 @@ public class Son extends Father {
 
     public static void main(String[] args){
         System.out.println("------执行main方法------args:" + args.toString());
+    }
+
+    public int[] getArray() {
+        return array;
+    }
+
+    public void setArray(int[] array) {
+        this.array = array;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

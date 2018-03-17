@@ -3,15 +3,21 @@ package com.example.javaee.reflect;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 /**
+ * 反射是框架设计的灵魂
  * 反射就是把java类中各种成分映射成一个个java对象。
  * 如一个类有：成员变量、方法、构造方法、包等等信息，利用反射技术可以对一个类进行解剖，把个个组成部分映射成一个个对象。
  *
@@ -23,13 +29,20 @@ public class Test {
 //        Test.getConstructors();
 //        Test.getFields();
 //        Test.getMethods();
-//        reflectMainMethod();
-        reflectPropertiesFile();
+
+//        Test.reflectMainMethod();
+//        Test.reflectPropertiesFile();
+//        Test.reflectTCheck();
+        reflectEnum();
     }
 
+    /**
+     * Class获取的三种方式
+     * @throws Exception
+     */
     public static void getClasses() throws Exception {
         /**
-         * Class获取的三种方式
+         *
          * 三种方式常用第三种:
          * 第一种对象都有了还要反射干什么。
          * 第二种需要导入类的包，依赖太强，不导包就抛编译错误。
@@ -125,7 +138,20 @@ public class Test {
         // 获取所有的字段，不包括父类的。
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
-            System.out.println(field);
+            System.out.println("Field:" + field);
+            // Field 类型的获取:两者返回的类型不一样，getGenericType() 方法能够获取到泛型类型
+            Class type= field.getType();
+            Type genericType = field.getGenericType();
+            System.out.println("Field type:" + type);
+            System.out.println("Field generic type:" + genericType);
+            System.out.println("---------------------------------");
+
+            // 反射中的数组
+            // 判断这个类型是不是数组类型
+            if (type.isArray()) {
+                System.out.println("Type is "+ type.getName());
+                System.out.println("Type is "+ type.getComponentType());
+            }
         }
         System.out.println("==========================================");
         // 获取某个公有字段并调用
@@ -133,13 +159,37 @@ public class Test {
         Object obj = clazz.getConstructor().newInstance();
         name.set(obj, "zhangsan");
         Son son = (Son)obj;
+        son.age = 18;
         System.out.println(son.name);
         System.out.println("==========================================");
+        // // 获取某个字段并调用
         Field birthday = clazz.getDeclaredField("birthday");
         System.out.println(birthday);
         birthday.setAccessible(true);
         birthday.set(obj, new Date());
         System.out.println(son);
+        System.out.println("==========================================");
+        Field field = clazz.getDeclaredField("age");
+        int age = field.getInt(obj);
+        System.out.println("age:" + age);
+
+        // 获取参数符------ int getModifiers()
+
+        System.out.println("==========================================");
+        // 动态创建数组
+        Field f = clazz.getDeclaredField("array");
+        f.setAccessible(true);
+        // 创建数组
+        Object objectArray = Array.newInstance(int.class, 3);
+        Array.set(objectArray, 0, 10);
+        Array.set(objectArray, 1, 11);
+        Array.set(objectArray, 2, 12);
+        f.set(son, objectArray);
+        int[] array = son.getArray();
+        for ( int i = 0;i < array.length;i++) {
+            System.out.println("array index "+ i + " value:"+array[i]);
+        }
+
     }
 
     /**
@@ -176,9 +226,68 @@ public class Test {
         methodPrivate.setAccessible(true);
         Object result = methodPrivate.invoke(obj, 8888);
         System.out.println("返回值：" + result);
+
+        // 获取方法参数------- Parameter[] getParameters()
+            // 获取参数名字  String getName()
+            // 获取参数类型  getType()
+            // 获取参数的修饰符 int getModifiers()
+            // 获取所有的参数类型 Class<?>[] getParameterTypes()
+            // 获取所有的参数类型，包括泛型 Type[] getGenericParameterTypes()
+        // 获取返回值类型 Class<?> getReturnType()
+        // 获取返回值类型包括泛型 Type getGenericReturnType()
+        // 获取异常类型 Class<?>[] getExceptionTypes()
+                       //Type[] getGenericExceptionTypes()
     }
 
     /**
+     * 反射中的枚举 Enum
+     */
+    public static void reflectEnum() {
+        try {
+            Class clazz = Class.forName("com.example.javaee.reflect.Status");
+            // 判定Class对象是不是枚举类型
+            if (clazz.isEnum()) {
+                System.out.println(clazz.getName()+" is Enum");
+                // 获取所有的枚举常量
+                Object[] objects = clazz.getEnumConstants();
+                System.out.println("所有枚举常量：" + Arrays.asList(objects));
+                // 获取枚举中所有的Field
+                Field[] fields = clazz.getDeclaredFields();
+                for ( Field f : fields ) {
+                    // 判断一个Field是不是枚举常量
+                    if (f.isEnumConstant()) {
+                        System.out.println(f.getName()+" is EnumConstant");
+                    } else {
+                        System.out.println(f.getName()+" is not EnumConstant");
+                    }
+                }
+            }
+            Class cls = Son.class;
+            Son son = (Son)cls.getConstructor().newInstance();
+            Field field = cls.getDeclaredField("status");
+            field.setAccessible(true);
+            Status status = (Status)field.get(son);
+            System.out.println("Status current is " + status);
+            field.set(son, Status.STOPED);
+            System.out.println("Status current is " + son.getStatus());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 应用
      * 反射main方法
      */
     public static void reflectMainMethod() {
@@ -201,6 +310,9 @@ public class Test {
         }
     }
 
+    /**
+     * 通过反射运行配置文件内容
+     */
     public static void reflectPropertiesFile() {
         try {
             Class clazz = Class.forName(getValue("className"));
@@ -232,6 +344,30 @@ public class Test {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     *  通过反射越过泛型检查
+     */
+    public static void reflectTCheck() {
+        List<String> list = new ArrayList<>();
+        list.add("aaa");
+        list.add("bbb");
+
+        try {
+            Class clazz = list.getClass();
+            Method method = clazz.getMethod("add", Object.class);
+            method.invoke(list, 100);
+            for (Object object : list) {
+                System.out.println(object);
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
 }
