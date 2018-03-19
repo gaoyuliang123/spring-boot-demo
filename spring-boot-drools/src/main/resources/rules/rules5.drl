@@ -1,0 +1,19 @@
+package com.example.rules5
+
+import com.example.springbootdrools.model.Product
+
+rule offer4Diamond
+
+    when
+        $Product : Product(type == Product.DIAMOND)
+    then
+        $Product.setDiscount(15);
+     end
+
+rule offer4GOLD
+
+    when
+        $Product : Product(type == Product.GOLD)
+    then
+        $Product.setDiscount(25);
+     end
