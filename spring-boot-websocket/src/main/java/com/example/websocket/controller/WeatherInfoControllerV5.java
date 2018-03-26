@@ -13,7 +13,7 @@ public class WeatherInfoControllerV5 {
     private WebScoketService webScoketService;
 
     // http://localhost:8080/v5/index.html
-    @Scheduled(fixedRate = 5000)
+    // @Scheduled(fixedRate = 5000)
     public String weatherInfo() {
         webScoketService.sendWeatherInfo();
         return "success";

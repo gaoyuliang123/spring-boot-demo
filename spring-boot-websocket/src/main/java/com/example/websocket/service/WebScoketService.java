@@ -2,6 +2,7 @@ package com.example.websocket.service;
 
 import com.example.websocket.model.InMessage;
 import com.example.websocket.model.OutMessage;
+import com.example.websocket.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -46,5 +47,13 @@ public class WebScoketService {
                             weatherMap.get("temp"))
             ));
         }
+    }
+
+    public void sendOnlineUser(Map<String, User> map) {
+        String msg = "";
+        for(Map.Entry<String, User> entry : map.entrySet()){
+            msg = msg.concat(entry.getValue().getUserName() + " || ");
+        }
+        simpMessagingTemplate.convertAndSend("/topic/onlineuser",msg);
     }
 }
