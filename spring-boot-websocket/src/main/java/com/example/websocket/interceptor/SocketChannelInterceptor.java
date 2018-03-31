@@ -30,7 +30,8 @@ public class SocketChannelInterceptor extends ChannelInterceptorAdapter {
         if (stompHeaderAccessor.getCommand() == null) {
             return;
         }
-        String sessionId = stompHeaderAccessor.getSessionAttributes().get("sessionId").toString();
+        //sessionId
+        String sessionId = stompHeaderAccessor.getSessionId();
         System.out.println("SocketChannelIntecepter -> sessionId = " + sessionId);
 
         switch(stompHeaderAccessor.getCommand()) {

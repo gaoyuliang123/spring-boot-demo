@@ -54,6 +54,6 @@ public class WebScoketService {
         for(Map.Entry<String, User> entry : map.entrySet()){
             msg = msg.concat(entry.getValue().getUserName() + " || ");
         }
-        simpMessagingTemplate.convertAndSend("/topic/onlineuser",msg);
+        simpMessagingTemplate.convertAndSend("/topic/onlineuser",new OutMessage(msg));
     }
 }
