@@ -1,8 +1,11 @@
 package com.example.websocket.controller;
 
+import com.example.websocket.model.InMessage;
 import com.example.websocket.model.User;
 import com.example.websocket.service.WebScoketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -53,5 +56,12 @@ public class UsersChatControllerV6 {
         return "success";
     }
 
+    @MessageMapping("/app/v6/chat")
+    public void topicChat(InMessage message, SimpMessageHeaderAccessor headerAccessor){
+        String sessionId = headerAccessor.getSessionAttributes().get("sessionId").toString();
+        User user = onlineUsers.get(sessionId);
+        message.setFrom(user.getUserName());
+        webScoketService.sendTopicChat(message);
 
+    }
 }

@@ -38,6 +38,9 @@ public class WebScoketService {
         simpMessagingTemplate.convertAndSend("/topic/server_info", new OutMessage(content));
     }
 
+    /**
+     * 发送在线用户
+     */
     public void sendWeatherInfo() {
         Map<String, String> weatherMap = weatherService.getWeatherInfo("深圳");
         if (!CollectionUtils.isEmpty(weatherMap)) {
@@ -50,10 +53,20 @@ public class WebScoketService {
     }
 
     public void sendOnlineUser(Map<String, User> map) {
-        String msg = "";
+        StringBuffer msg = new StringBuffer();
         for(Map.Entry<String, User> entry : map.entrySet()){
-            msg = msg.concat(entry.getValue().getUserName() + " || ");
+            msg.append(entry.getValue().getUserName());
+            msg.append("||");
         }
-        simpMessagingTemplate.convertAndSend("/topic/onlineuser",new OutMessage(msg));
+        simpMessagingTemplate.convertAndSend("/topic/onlineuser",new OutMessage(msg.toString()));
+    }
+
+    /**
+     * 多人聊天
+     * @param message
+     */
+    public void sendTopicChat(InMessage message) {
+        String msg = message.getFrom() + " 发送:" + message.getContent();
+        simpMessagingTemplate.convertAndSend("/topic/chat", new OutMessage(msg));
     }
 }
