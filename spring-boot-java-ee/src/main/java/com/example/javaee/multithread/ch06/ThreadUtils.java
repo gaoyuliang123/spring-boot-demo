@@ -4,6 +4,7 @@ import org.apache.ibatis.javassist.expr.Instanceof;
 
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +51,7 @@ public class ThreadUtils {
      */
    static {
        threadPoolExecutor = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE, TimeUnit.SECONDS,
-               new LinkedBlockingQueue<>(), new MyThreadFactory(1));
+               new LinkedBlockingQueue<>(10), new MyThreadFactory(1), new MyRejected());
    }
     public void execute(Runnable runnable) {
         if (threadPoolExecutor == null) {
@@ -76,20 +77,40 @@ public class ThreadUtils {
     }
 
     private static class MyThreadFactory implements ThreadFactory {
-        private int mPriority;
-        private ThreadGroup mthreadGroup;
+        int mPriority;
+        ThreadGroup mthreadGroup;
         private AtomicInteger mInteger = new AtomicInteger(1);
 
         public MyThreadFactory(int mPriority) {
             this.mPriority = mPriority;
             mthreadGroup = Thread.currentThread().getThreadGroup();
         }
-
         @Override
         public Thread newThread(Runnable r) {
-            Thread thread = new Thread(mthreadGroup, r, THREAD_NAME + mInteger, 0);
+            Thread thread = new Thread(mthreadGroup, r, THREAD_NAME + mInteger.getAndIncrement(), 0);
             thread.setPriority(mPriority);
             return thread;
+        }
+    }
+
+    /**
+     * 自定义线程池拒绝策略
+     *
+     * 线程池的四种默认拒绝策略
+     * AbortPolicy：直接抛出异常。
+     * CallerRunsPolicy：只用调用者所在线程来运行任务。
+     * DiscardOldestPolicy：丢弃队列里最老的一个任务，并执行当前任务。
+     * DiscardPolicy：不处理，丢弃掉。
+     */
+    private static class MyRejected implements RejectedExecutionHandler {
+        @Override
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+            System.out.println("Thread RejectedExecutionHandler=====>" + r.toString());
+            if (!executor.isShutdown()) {
+                while (executor.getQueue().remainingCapacity() == 0) {
+                    executor.execute(r);
+                }
+            }
         }
     }
 }
