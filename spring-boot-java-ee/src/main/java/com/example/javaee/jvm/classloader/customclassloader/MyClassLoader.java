@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * 自定义加载类
+ */
 public class MyClassLoader extends ClassLoader {
     /**
      * 源字节码路径
