@@ -5,16 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
- * @description: 数据包解码器
- *
- * 数据包格式
- * +——----——+——-----——+——----——+——----——+——-----——+——-----——
- * |  包头	|  模块号      |  命令号    |   长度   |   数据   |
- * +——----——+——-----——+——----——+——----——+——-----——+—-----——
- * 包头4字节
- * 模块号2字节
- * 命令号2字节
- * 长度4字节(数据部分占有字节数量)
+ * @description: 数据包编码器
  * @author: TGL
  * @date: 2018/5/26 23:08
  */

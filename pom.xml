@@ -39,7 +39,8 @@
 		<module>spring-boot-mybatis-mapper</module>
         <module>spring-boot-websocket</module>
         <module>spring-boot-netty</module>
-    </modules>
+		<module>spring-boot-generation</module>
+	</modules>
 
 	<dependencies>
 		<dependency>
@@ -51,6 +52,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- 加载jdbc连接数据库 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 	</dependencies>
 
