@@ -34,8 +34,8 @@ public class SessionManager {
     /**
      * 移除会话
      */
-    public static void removeSession(long playerId) {
-        onlineSessions.remove(playerId);
+    public static Session removeSession(long playerId) {
+        return onlineSessions.remove(playerId);
     }
 
     /**
@@ -68,7 +68,7 @@ public class SessionManager {
      * @param playerId
      * @return
      */
-    public boolean isOnlinePlayer(long playerId) {
+    public static boolean isOnlinePlayer(long playerId) {
         return onlineSessions.containsKey(playerId);
     }
 
@@ -76,7 +76,7 @@ public class SessionManager {
      * 获取所有在线玩家
      * @return
      */
-    public Set<Long> getOnlinePlayers() {
+    public static Set<Long> getOnlinePlayers() {
         return Collections.unmodifiableSet(onlineSessions.keySet());
     }
 }

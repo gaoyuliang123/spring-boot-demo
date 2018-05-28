@@ -26,6 +26,8 @@ public class Server {
         // 事件循环组
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
+        // 业务线程组
+        EventLoopGroup busyGroup = new NioEventLoopGroup();
         try {
             // 设置循环线程组实例
             serverBootstrap.group(bossGroup, workGroup);
@@ -37,7 +39,7 @@ public class Server {
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     socketChannel.pipeline().addLast(new RequestDecoder());
                     socketChannel.pipeline().addLast(new ResponseEncoder());
-                    socketChannel.pipeline().addLast(new ServerHandler());
+                    socketChannel.pipeline().addLast(busyGroup, new ServerHandler());
                 }
             });
             // 设置参数
