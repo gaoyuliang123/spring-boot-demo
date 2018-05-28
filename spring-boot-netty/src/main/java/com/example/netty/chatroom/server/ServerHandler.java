@@ -25,10 +25,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<Request> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Request request) throws Exception {
+        System.out.println("serverHandler-channelRead0======>" + Thread.currentThread().getName());
         this.handlerMessage(new SessionImpl(channelHandlerContext.channel()), request);
     }
 
     private void handlerMessage(Session session, Request request) {
+        System.out.println("serverHandler-channelRead0======>" + Thread.currentThread().getName());
         short module = request.getModule();
         short cmd = request.getCmd();
         System.out.println("module:" + module + " cmd：" + cmd);

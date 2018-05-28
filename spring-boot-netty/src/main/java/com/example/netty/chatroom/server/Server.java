@@ -23,7 +23,7 @@ public class Server {
     public void start(int port) {
         // 用来引导服务器配置
         ServerBootstrap serverBootstrap = new ServerBootstrap();
-        // 事件循环组
+        // 事件循环组:boss线程监听端口，worker线程负责数据读写
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
         // 业务线程组

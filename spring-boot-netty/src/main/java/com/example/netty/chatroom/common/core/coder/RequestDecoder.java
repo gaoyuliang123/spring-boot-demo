@@ -31,6 +31,7 @@ public class RequestDecoder extends ByteToMessageDecoder {
     
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> out) throws Exception {
+        System.out.println("RequestDecoder======>" + Thread.currentThread().getName());
         while (true) {
             if (byteBuf.readableBytes() > BASE_LENTH) {
                 // 第一个可读数据包的位置
