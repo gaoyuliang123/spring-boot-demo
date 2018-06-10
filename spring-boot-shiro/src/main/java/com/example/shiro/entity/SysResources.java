@@ -11,8 +11,8 @@ public class SysResources {
     /**
      * 资源名称
      */
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "res_name")
+    private String resName;
 
     /**
      * 资源url
@@ -23,8 +23,8 @@ public class SysResources {
     /**
      * 资源类型   1:菜单    2：按钮
      */
-    @Column(name = "user_type")
-    private Integer userType;
+    @Column(name = "res_type")
+    private Integer resType;
 
     /**
      * 父资源
@@ -35,8 +35,8 @@ public class SysResources {
     /**
      * 排序
      */
-    @Column(name = "user_sort")
-    private Integer userSort;
+    @Column(name = "res_sort")
+    private Integer resSort;
 
     /**
      * @return id
@@ -55,19 +55,19 @@ public class SysResources {
     /**
      * 获取资源名称
      *
-     * @return user_name - 资源名称
+     * @return res_name - 资源名称
      */
-    public String getUserName() {
-        return userName;
+    public String getResName() {
+        return resName;
     }
 
     /**
      * 设置资源名称
      *
-     * @param userName 资源名称
+     * @param resName 资源名称
      */
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setResName(String resName) {
+        this.resName = resName;
     }
 
     /**
@@ -91,19 +91,19 @@ public class SysResources {
     /**
      * 获取资源类型   1:菜单    2：按钮
      *
-     * @return user_type - 资源类型   1:菜单    2：按钮
+     * @return res_type - 资源类型   1:菜单    2：按钮
      */
-    public Integer getUserType() {
-        return userType;
+    public Integer getResType() {
+        return resType;
     }
 
     /**
      * 设置资源类型   1:菜单    2：按钮
      *
-     * @param userType 资源类型   1:菜单    2：按钮
+     * @param resType 资源类型   1:菜单    2：按钮
      */
-    public void setUserType(Integer userType) {
-        this.userType = userType;
+    public void setResType(Integer resType) {
+        this.resType = resType;
     }
 
     /**
@@ -127,18 +127,18 @@ public class SysResources {
     /**
      * 获取排序
      *
-     * @return user_sort - 排序
+     * @return res_sort - 排序
      */
-    public Integer getUserSort() {
-        return userSort;
+    public Integer getResSort() {
+        return resSort;
     }
 
     /**
      * 设置排序
      *
-     * @param userSort 排序
+     * @param resSort 排序
      */
-    public void setUserSort(Integer userSort) {
-        this.userSort = userSort;
+    public void setResSort(Integer resSort) {
+        this.resSort = resSort;
     }
 }

@@ -36,7 +36,7 @@
         <javaClientGenerator targetPackage="com.example.shiro.mapper" targetProject="src/main/java"
                              type="XMLMAPPER"/>
         <!-- 配置表信息 -->
-        <table tableName="%">
+        <table tableName="sys_resources">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql"/>
             <!--oracle 配置-->

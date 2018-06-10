@@ -49,7 +49,7 @@ public class ShiroConfig {
         // 自定义拦截器
         Map<String, Filter> filterMap = new LinkedHashMap<String, Filter>(16);
         // TODO
-        filterMap.put("kickout", null);
+        filterMap.put("kickout", kickoutSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         // 权限控制
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>(16);
@@ -93,9 +93,9 @@ public class ShiroConfig {
     @Bean
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
-        redisManager.setHost(evn.getProperty("spring.redis.host", "localhost"));
-        redisManager.setPort(Integer.parseInt(evn.getProperty("spring.redis.port", "6379")));
-        redisManager.setTimeout(Integer.parseInt(evn.getProperty("spring.redis.timeout", "0")));
+        redisManager.setHost("localhost");
+        redisManager.setPort(6379);
+        redisManager.setTimeout(0);
         // 失效时间
         redisManager.setExpire(1800);
         return redisManager;
@@ -146,6 +146,11 @@ public class ShiroConfig {
     @Bean
     public KickoutSessionControlFilter kickoutSessionControlFilter() {
         KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
+        kickoutSessionControlFilter.setCacheManager(redisCacheManager());
+        kickoutSessionControlFilter.setSessionManager(sessionManager());
+        kickoutSessionControlFilter.setKickoutAfter(false);
+        kickoutSessionControlFilter.setMaxSession(1);
+        kickoutSessionControlFilter.setKickoutUrl("/auth/kickout");
         return kickoutSessionControlFilter;
     }
 

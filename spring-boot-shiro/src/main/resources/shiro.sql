@@ -21,11 +21,11 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `sys_resources`;
 CREATE TABLE `sys_resources` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(255) DEFAULT NULL COMMENT '资源名称',
+  `res_name` varchar(255) DEFAULT NULL COMMENT '资源名称',
   `res_url` varchar(255) DEFAULT NULL COMMENT '资源url',
-  `user_type` int(11) DEFAULT NULL COMMENT '资源类型   1:菜单    2：按钮',
+  `res_type` int(11) DEFAULT NULL COMMENT '资源类型   1:菜单    2：按钮',
   `parent_id` int(11) DEFAULT NULL COMMENT '父资源',
-  `user_sort` int(11) DEFAULT NULL COMMENT '排序',
+  `res_sort` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
