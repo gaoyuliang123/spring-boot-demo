@@ -6,7 +6,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>spring-boot-shiro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>spring-boot-shiro</name>
 	<description>Demo project for Spring Boot</description>
@@ -78,6 +78,16 @@
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
+		<!-- servlet 依赖. -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
 		<!--添加jsp依赖 end-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -141,41 +151,41 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<!-- mybatis 逆向工程插件-->
-			<plugin>
-				<groupId>org.mybatis.generator</groupId>
-				<artifactId>mybatis-generator-maven-plugin</artifactId>
-				<version>1.3.2</version>
-				<configuration>
-					<configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
-					<verbose>true</verbose>
-					<overwrite>true</overwrite>
-				</configuration>
-				<executions>
-					<execution>
-						<id>Generate MyBatis Artifacts</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-						<version>5.1.44</version>
-					</dependency>
-					<dependency>
-						<groupId>org.mybatis.generator</groupId>
-						<artifactId>mybatis-generator-core</artifactId>
-						<version>1.3.2</version>
-					</dependency>
-					<dependency>
-						<groupId>tk.mybatis</groupId>
-						<artifactId>mapper</artifactId>
-						<version>3.5.0</version>
-					</dependency>
-				</dependencies>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.mybatis.generator</groupId>-->
+				<!--<artifactId>mybatis-generator-maven-plugin</artifactId>-->
+				<!--<version>1.3.2</version>-->
+				<!--<configuration>-->
+					<!--<configurationFile>src/main/resources/generatorConfig.xml</configurationFile>-->
+					<!--<verbose>true</verbose>-->
+					<!--<overwrite>true</overwrite>-->
+				<!--</configuration>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>Generate MyBatis Artifacts</id>-->
+						<!--<goals>-->
+							<!--<goal>generate</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
+				<!--<dependencies>-->
+					<!--<dependency>-->
+						<!--<groupId>mysql</groupId>-->
+						<!--<artifactId>mysql-connector-java</artifactId>-->
+						<!--<version>5.1.44</version>-->
+					<!--</dependency>-->
+					<!--<dependency>-->
+						<!--<groupId>org.mybatis.generator</groupId>-->
+						<!--<artifactId>mybatis-generator-core</artifactId>-->
+						<!--<version>1.3.2</version>-->
+					<!--</dependency>-->
+					<!--<dependency>-->
+						<!--<groupId>tk.mybatis</groupId>-->
+						<!--<artifactId>mapper</artifactId>-->
+						<!--<version>3.5.0</version>-->
+					<!--</dependency>-->
+				<!--</dependencies>-->
+			<!--</plugin>-->
 		</plugins>
 	</build>
 

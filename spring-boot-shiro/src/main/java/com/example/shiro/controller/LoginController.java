@@ -52,11 +52,11 @@ public class LoginController {
         SysUser sysUser = RequestUtils.currentLoginUser();
         if (sysUser != null && sysUser.getUserName() != null) {
             userName = sysUser.getUserName();
-            request.setAttribute("username", userName);
         } else {
             return "redirect:/auth/login";
         }
-        return "/index";
+        request.setAttribute("username", userName);
+        return "index";
     }
 
     //被踢出后跳转的页面

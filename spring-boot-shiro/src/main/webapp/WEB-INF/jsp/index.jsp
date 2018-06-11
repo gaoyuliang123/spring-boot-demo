@@ -8,7 +8,9 @@
 </head>
 <body>
 <a href="/auth/logout">退出</a>
-<h1>欢迎：<span style="color: red;"><%=request.getAttribute("username")%></span>
+<%--<%=request.getAttribute("username")%>--%>
+<h1>欢迎：
+    <span>username</span>
 </h1>
 </body>
 </html>

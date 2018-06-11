@@ -1,9 +1,10 @@
 package com.example.shiro.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "sys_role_resources")
-public class SysRoleResources {
+public class SysRoleResources implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SELECT LAST_INSERT_ID()")
     private Integer id;

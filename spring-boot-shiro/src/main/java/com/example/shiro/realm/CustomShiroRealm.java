@@ -72,7 +72,7 @@ public class CustomShiroRealm extends AuthorizingRealm{
             ByteSource credentialsSalt = ByteSource.Util.bytes(sysUserName);
             this.getHashValue(credentials, sysUserName);
             SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                    principal, credentials, credentialsSalt, realmName);
+                    principal, credentials, realmName);
             return authenticationInfo;
         }
     }
