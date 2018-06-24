@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-config/spring-boot-config.iml" filepath="$PROJECT_DIR$/spring-boot-config/spring-boot-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-demo.iml" filepath="$PROJECT_DIR$/spring-boot-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-generation/spring-boot-generation.iml" filepath="$PROJECT_DIR$/spring-boot-generation/spring-boot-generation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-hello/spring-boot-hello.iml" filepath="$PROJECT_DIR$/spring-boot-hello/spring-boot-hello.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-java-ee/spring-boot-java-ee.iml" filepath="$PROJECT_DIR$/spring-boot-java-ee/spring-boot-java-ee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-jsp/spring-boot-jsp.iml" filepath="$PROJECT_DIR$/spring-boot-jsp/spring-boot-jsp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-mybatis-mapper/spring-boot-mybatis-mapper.iml" filepath="$PROJECT_DIR$/spring-boot-mybatis-mapper/spring-boot-mybatis-mapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-netty/spring-boot-netty.iml" filepath="$PROJECT_DIR$/spring-boot-netty/spring-boot-netty.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-rocketmq/spring-boot-rocketmq.iml" filepath="$PROJECT_DIR$/spring-boot-rocketmq/spring-boot-rocketmq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-servlet/spring-boot-servlet.iml" filepath="$PROJECT_DIR$/spring-boot-servlet/spring-boot-servlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-shiro/spring-boot-shiro.iml" filepath="$PROJECT_DIR$/spring-boot-shiro/spring-boot-shiro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-task/spring-boot-task.iml" filepath="$PROJECT_DIR$/spring-boot-task/spring-boot-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-websocket/spring-boot-websocket.iml" filepath="$PROJECT_DIR$/spring-boot-websocket/spring-boot-websocket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-websocket/spring-websocket.iml" filepath="$PROJECT_DIR$/spring-websocket/spring-websocket.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="spring-boot-config" />
+        <module name="spring-boot-generation" />
+        <module name="spring-boot-hello" />
+        <module name="spring-boot-jsp" />
+        <module name="spring-boot-mybatis-mapper" />
+        <module name="spring-boot-netty" />
+        <module name="spring-boot-rocketmq" />
+        <module name="spring-boot-servlet" />
+        <module name="spring-boot-shiro" />
+        <module name="spring-boot-task" />
+        <module name="spring-boot-websocket" />
+        <module name="spring-websocket" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="spring-boot-config" target="1.8" />
+      <module name="spring-boot-demo" target="1.8" />
+      <module name="spring-boot-generation" target="1.8" />
+      <module name="spring-boot-hello" target="1.8" />
+      <module name="spring-boot-jsp" target="1.8" />
+      <module name="spring-boot-mybatis-mapper" target="1.8" />
+      <module name="spring-boot-netty" target="1.8" />
+      <module name="spring-boot-rocketmq" target="1.8" />
+      <module name="spring-boot-servlet" target="1.8" />
+      <module name="spring-boot-shiro" target="1.8" />
+      <module name="spring-boot-task" target="1.8" />
+      <module name="spring-boot-websocket" target="1.8" />
+      <module name="spring-websocket" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
